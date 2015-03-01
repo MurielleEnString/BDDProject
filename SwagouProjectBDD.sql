@@ -105,6 +105,29 @@ INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('24-01-2015','DD-MM-YYYY')
 
 INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Jean-Régis', 'Treux', '19 boulevard de la cassette', '0645346756');
 INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('16-11-2014','DD-MM-YYYY'),'6');
+INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Jean', 'Bon-Beurre', '17 rue du sandwich', '0685721514');
+INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('16-10-2014','DD-MM-YYYY'),'12');
+
+INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Valery', 'Iettes', '13 rue du gras', '0612967584');
+INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('16-10-2014','DD-MM-YYYY'),'6');
+
+INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Vladimier', 'Vaisselle', '17 rue du nettayant', '0678965236');
+INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('16-10-2014','DD-MM-YYYY'),'6');
+
+INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Theo', 'Remme', '08 avenue de Pythagore', '0645728589');
+INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('15-11-2014','DD-MM-YYYY'),'6');
+
+INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Sebastien', 'Moi-ca', '13 rue du maintien', '0632568975');
+INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('08-09-2014','DD-MM-YYYY'),'12');
+
+INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Manu', 'Tension', '8 impasse du transpallete', '0612457896');
+INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('01-10-2014','DD-MM-YYYY'),'12');
+
+INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Thomas', 'Ster', '03 rue ALMA', '0632458996');
+INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('01-12-2014','DD-MM-YYYY'),'6');
+
+INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Therese', 'Ponsable du Matos', '17 rue du placard', '0632569878');
+INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('11-00-2014','DD-MM-YYYY'),'12');
 
 
 INSERT INTO Medias VALUES('001', 'The Score', 'hip hop', to_date('1995', 'YYYY'));
