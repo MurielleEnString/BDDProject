@@ -34,14 +34,14 @@ CREATE TABLE Clients(
 
 CREATE TABLE Employes(
             id_empl NUMBER(3),
-            id_chef NUMBER(2),
+            id_chef NUMBER(3),
             heure_emb DATE,
             heure_deb DATE,
             CONSTRAINT employes_pk PRIMARY KEY (id_empl),
             CONSTRAINT Employes_fk FOREIGN KEY (id_empl) REFERENCES Personnes(id_p));
             
 CREATE TABLE Chefs(
-            id_chef NUMBER(2),
+            id_chef NUMBER(3),
             rayon VARCHAR(20),
             CONSTRAINT chefs_pk PRIMARY KEY (id_chef),
             CONSTRAINT chefs_fk FOREIGN KEY (id_chef) REFERENCES Employes(id_empl));
