@@ -94,6 +94,20 @@ CREATE TABLE Disques(
           CONSTRAINT disques_pk PRIMARY KEY (ref_d),
           CONSTRAINT disques_fk FOREIGN KEY (ref_d) REFERENCES Medias(ref_m));
           
+          
+CREATE OR REPLACE TRIGGER ajout_emprunts2
+  AFTER INSERT
+  ON EMPRUNTS
+  FOR EACH ROW
+BEGIN
+  IF :NEW.ref_m<'600' THEN
+    INSERT INTO EMPRUNTS2 VALUES(:NEW.ref_m,:NEW.date_emp,:NEW.date_emp+21);
+  ELSE
+    INSERT INTO EMPRUNTS2 VALUES(:NEW.ref_m,:NEW.date_emp,ADD_MONTHS(:NEW.date_emp,1));
+  END IF;
+END;
+/
+          
 
 CREATE SEQUENCE seq_id_cl
 START WITH 1
@@ -255,5 +269,5 @@ INSERT INTO Livres VALUES('607','J.R.R. Tolkien', 'Allen and Unwin');
 INSERT INTO Livres VALUES('608','Arthur Conan Doyle', 'Hachette');
 
 
-
+INSERT INTO EMPRUNTS VALUES('001','602',to_date('12-02-2015','DD-MM-YYYY'),'');
           
