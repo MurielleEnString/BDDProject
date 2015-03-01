@@ -1,4 +1,5 @@
 DROP SEQUENCE seq_id_cl;
+DROP SEQUENCE seq_id_empl;
 
 DROP TABLE Disques;
 DROP TABLE Films;
@@ -111,7 +112,7 @@ INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('16-10-2014','DD-MM-YYYY')
 INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Valery', 'Iettes', '13 rue du gras', '0612967584');
 INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('16-10-2014','DD-MM-YYYY'),'6');
 
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Vladimier', 'Vaisselle', '17 rue du nettayant', '0678965236');
+INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Vladimir', 'Vaisselle', '17 rue du nettayant', '0678965236');
 INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('16-10-2014','DD-MM-YYYY'),'6');
 
 INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Theo', 'Remme', '08 avenue de Pythagore', '0645728589');
@@ -129,7 +130,7 @@ INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('01-12-2014','DD-MM-YYYY')
 INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Therese', 'Ponsable du Matos', '17 rue du placard', '0632569878');
 INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('11-00-2014','DD-MM-YYYY'),'12');
 
-DROP SEQUENCE seq_id_empl;
+
 
 CREATE SEQUENCE seq_id_empl
 START WITH 950
