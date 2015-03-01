@@ -143,11 +143,11 @@ INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Harry', 'Cobeurre', '02 rue d
 INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,seq_id_empl.CURRVAL,to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'));
 INSERT INTO Chefs VALUES (seq_id_empl.CURRVAL,'Livres');
 
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Laurent', 'Gina', '03 avenue du soda', '0632457896');
+INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Laurent', 'Gina', '03 avenue du soda', '0632457896');
 INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,seq_id_empl.CURRVAL,to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'));
 INSERT INTO Chefs VALUES (seq_id_empl.CURRVAL,'Films');
 
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Otto', 'Matik', '01 rue du distributeur', '0647856329');
+INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Otto', 'Matik', '01 rue du distributeur', '0647856329');
 INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,seq_id_empl.CURRVAL,to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'));
 INSERT INTO Chefs VALUES (seq_id_empl.CURRVAL,'Disques');
 
