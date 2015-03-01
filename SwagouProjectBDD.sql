@@ -73,8 +73,8 @@ CREATE TABLE Emprunts2(
             
 CREATE TABLE Livres(
           ref_l NUMBER(3),
-          auteur VARCHAR2(20),
-          editeur VARCHAR2(20),
+          auteur VARCHAR2(30),
+          editeur VARCHAR2(30),
           CONSTRAINT livres_pk PRIMARY KEY (ref_l),
           CONSTRAINT livres_fk FOREIGN KEY (ref_l) REFERENCES Medias(ref_m));
            
@@ -151,6 +151,16 @@ INSERT INTO Medias VALUES('308', 'Chat noir chat blanc', 'comédie', to_date('19
 INSERT INTO Medias VALUES('309', 'Sacré graal', 'comédie', to_date('1975', 'YYYY'));
 INSERT INTO Medias VALUES('310', 'Le sens de la vie', 'comédie', to_date('1983', 'YYYY'));
 INSERT INTO Medias VALUES('311', 'La cité de la peur', 'comédie', to_date('1994', 'YYYY'));
+INSERT INTO Medias VALUES('312', 'La stratégie de l echec', 'comédie', to_date('2001', 'YYYY'));
+INSERT INTO Medias VALUES('600', 'La huitième couleur', 'fantaisie', to_date('1983', 'YYYY'));
+INSERT INTO Medias VALUES('601', 'Le huitième sortilège', 'fantaisie', to_date('1986', 'YYYY'));
+INSERT INTO Medias VALUES('602', 'Le petit prince', 'conte', to_date('1943', 'YYYY'));
+INSERT INTO Medias VALUES('603', 'L aube de Fondation', 'Science fiction', to_date('1993', 'YYYY'));
+INSERT INTO Medias VALUES('604', 'V pour Vendetta', 'Comics', to_date('1993', 'YYYY'));
+INSERT INTO Medias VALUES('605', 'Germinal', 'Roman', to_date('1885', 'YYYY'));
+INSERT INTO Medias VALUES('606', 'Les fleurs du mal', 'Pésie', to_date('1857', 'YYYY'));
+INSERT INTO Medias VALUES('607', 'La communauté de l anneau', 'fantasie', to_date('1954', 'YYYY'));
+INSERT INTO Medias VALUES('608', 'Une étude en rouge', 'policier', to_date('1887', 'YYYY'));
 
 
 INSERT INTO Films VALUES('300', 'Wes Anderson', '88');
@@ -165,6 +175,7 @@ INSERT INTO Films VALUES('308', 'Emir Kusturica', '127');
 INSERT INTO Films VALUES('309', 'Monty Python', '90');
 INSERT INTO Films VALUES('310', 'Monty Python', '107');
 INSERT INTO Films VALUES('311', 'Alain Berbérian', '109');
+INSERT INTO Films VALUES('312', 'Dominique Farrugia', '109');
 
 
 INSERT INTO Disques VALUES('001','Fugees', '13', '73');
@@ -176,6 +187,16 @@ INSERT INTO Disques VALUES('006','C2C', '14', '57');
 INSERT INTO Disques VALUES('007','Guns n Roses', '12', '53');
 INSERT INTO Disques VALUES('008','Ali Farka Toure', '13', '58');
 INSERT INTO Disques VALUES('009','Archive', '14', '61');
+
+INSERT INTO Livres VALUES('600','Terry Pratchett', 'Colin Smythe');
+INSERT INTO Livres VALUES('601','Terry Pratchett', 'Colin Smythe');
+INSERT INTO Livres VALUES('602','Antoine de Saint-Exupéry', 'Colin Smythe');
+INSERT INTO Livres VALUES('603','Isaac Asimov', 'Presse de la cité');
+INSERT INTO Livres VALUES('604','Alan Moore', 'Quality Comics/Warrior');
+INSERT INTO Livres VALUES('605','Emile Zola', 'Gil Blas');
+INSERT INTO Livres VALUES('606','Charles Baudelaire', 'Auguste Poulet-Malassis');
+INSERT INTO Livres VALUES('607','J.R.R. Tolkien', 'Allen and Unwin');
+INSERT INTO Livres VALUES('608','Arthur Conan Doyle', 'Hachette');
 
 
 
