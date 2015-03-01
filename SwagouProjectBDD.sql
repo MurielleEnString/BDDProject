@@ -56,7 +56,7 @@ CREATE TABLE Medias(
             
             
 CREATE TABLE Emprunts(
-            id_cl NUMBER(2),
+            id_cl NUMBER(3),
             ref_m NUMBER(3),
             date_emp DATE,
             date_ret_reelle DATE,
