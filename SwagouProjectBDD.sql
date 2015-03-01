@@ -128,7 +128,7 @@ INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Thomas', 'Ster', '03 rue ALMA',
 INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('01-12-2014','DD-MM-YYYY'),'6');
 
 INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Therese', 'Ponsable du Matos', '17 rue du placard', '0632569878');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('11-00-2014','DD-MM-YYYY'),'12');
+INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('11-02-2014','DD-MM-YYYY'),'12');
 
 
 
