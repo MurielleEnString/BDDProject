@@ -76,23 +76,20 @@ CREATE TABLE Livres(
           titre VARCHAR2(30),
           auteur VARCHAR2(30),
           editeur VARCHAR2(30),
-          CONSTRAINT livres_pk PRIMARY KEY (titre, editeur),
-          CONSTRAINT livres_fk FOREIGN KEY (titre,editeur) REFERENCES Medias(ref_m));
+          CONSTRAINT livres_pk PRIMARY KEY (titre, editeur));
            
 CREATE TABLE Films(
           titre VARCHAR2(30),
           realisateur VARCHAR2(20),
           duree_f NUMBER(3),
-          CONSTRAINT films_pk PRIMARY KEY (titre, realisateur),
-          CONSTRAINT films_fk FOREIGN KEY (titre, realisateur) REFERENCES Medias(titre, realisateur));
+          CONSTRAINT films_pk PRIMARY KEY (titre, realisateur));
           
 CREATE TABLE Disques(
           titre NUMBER(3),
           groupe VARCHAR2(30),
           nb_pistes NUMBER(2),
           duree_d NUMBER(2),
-          CONSTRAINT disques_pk PRIMARY KEY (titre, groupe),
-          CONSTRAINT disques_fk FOREIGN KEY (titre, groupe) REFERENCES Medias(titre, groupe));
+          CONSTRAINT disques_pk PRIMARY KEY (titre, groupe));
           
 
           
