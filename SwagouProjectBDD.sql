@@ -1,6 +1,8 @@
-/*DROP SEQUENCE seq_id_cl;
+DROP SEQUENCE seq_id_cl;
 DROP SEQUENCE seq_id_empl;
-*/
+DROP SEQUENCE seq_id_chef;
+DROP SEQUENCE seq_id_p;
+
 
 DROP TABLE Disques;
 DROP TABLE Films;
@@ -31,10 +33,12 @@ CREATE TABLE Personnes(
 CREATE TABLE Employes(
             id_empl NUMBER(3),
             id_chef NUMBER(3),
-            rayon VARCHAR2(30),
+            rayon VARCHAR2(30) check(rayon='Livres' OR rayon='Films' OR rayon='Disques')  ,
             heure_emb DATE,
             heure_deb DATE,
+            id_p NUMBER(3),
             CONSTRAINT employes_pk PRIMARY KEY (id_empl));
+            
             
 CREATE TABLE Chefs(
             id_chef NUMBER(3),
@@ -137,97 +141,131 @@ EXCEPTION
   
 END; 
 /         
-
+*/
 CREATE SEQUENCE seq_id_cl
 START WITH 1
 INCREMENT BY 1
 NOCYCLE
-MAXVALUE 700;
+MAXVALUE 999;
 
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Eddy', 'Tudor', '15 rue de la couette', '0548384756');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('24-01-2015','DD-MM-YYYY'),'12');
-
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Jean-Régis', 'Treux', '19 boulevard de la cassette', '0645346756');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('16-11-2014','DD-MM-YYYY'),'6');
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Jean', 'Bon-Beurre', '17 rue du sandwich', '0685721514');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('16-10-2014','DD-MM-YYYY'),'12');
-
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Valery', 'Iettes', '13 rue du gras', '0612967584');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('16-10-2014','DD-MM-YYYY'),'6');
-
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Vladimir', 'Vaisselle', '17 rue du nettayant', '0678965236');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('16-10-2014','DD-MM-YYYY'),'6');
-
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Theo', 'Remme', '08 avenue de Pythagore', '0645728589');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('15-11-2014','DD-MM-YYYY'),'6');
-
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Sebastien', 'Moi-ca', '13 rue du maintien', '0632568975');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('08-09-2014','DD-MM-YYYY'),'12');
-
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Manu', 'Tension', '8 impasse du transpallete', '0612457896');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('01-10-2014','DD-MM-YYYY'),'12');
-
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Thomas', 'Ster', '03 rue ALMA', '0632458996');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('01-12-2014','DD-MM-YYYY'),'6');
-
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Therese', 'Ponsable du Matos', '17 rue du placard', '0632569878');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('11-02-2014','DD-MM-YYYY'),'12');
-
-
+CREATE SEQUENCE seq_id_p
+START WITH 1
+INCREMENT BY 1
+NOCYCLE
+MAXVALUE 999;
 
 CREATE SEQUENCE seq_id_empl
-START WITH 950
+START WITH 1
+INCREMENT BY 1
+NOCYCLE
+MAXVALUE 999;
+
+CREATE SEQUENCe seq_id_chef
+START WITH 1
 INCREMENT BY 1
 NOCYCLE
 MAXVALUE 999;
 
 
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Harry', 'Cobeurre', '02 rue de la cantine', '0635968658');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,seq_id_empl.CURRVAL,to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'));
-INSERT INTO Chefs VALUES (seq_id_empl.CURRVAL,'Livres');
 
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Laurent', 'Gina', '03 avenue du soda', '0632457896');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,seq_id_empl.CURRVAL,to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'));
-INSERT INTO Chefs VALUES (seq_id_empl.CURRVAL,'Films');
-
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Otto', 'Matik', '01 rue du distributeur', '0647856329');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,seq_id_empl.CURRVAL,to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'));
-INSERT INTO Chefs VALUES (seq_id_empl.CURRVAL,'Disques');
-
-
-
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Ines', 'Peré', '03 rue de la cantine', '0634519765');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,101,to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));            
-
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Sam', 'Convient', '05 rue de la frite', '0643596784');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,101,to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS')); 
-
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Sacha', 'Touille', '02 rue des nuages', '0645798613');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,101,to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS')); 
-
-
-
-
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Vincent', 'Time', '12 boulevard du Dolez', '0654789635');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,102,to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));            
-
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Thomas', 'Wak', '12 avenue des songes', '0656325269');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,102,to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS')); 
-
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Terry', 'Gollo', '14 impasse de la foret', '0635427896');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,102,to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));  
+SET serveroutput ON;
+create or replace PROCEDURE add_empl(nom IN VARCHAR2, 
+                                    prenom IN VARCHAR2, 
+                                    adresse IN VARCHAR2, 
+                                    tel IN NUMBER,
+                                    ray IN VARCHAR2, 
+                                    h_e IN DATE, 
+                                    h_d IN DATE)
+IS
+  id_c NUMBER(3);
+  l VARCHAR2(30);
+  mauvais_rayon EXCEPTION;
+BEGIN
+  --IF (ray = 'Films') OR (LOWER(ray)='livres') OR (ray='Disques') 
+  --THEN
+    SELECT Employes.id_chef INTO id_c FROM Employes, Chefs WHERE Employes.id_empl=Chefs.id_empl AND Employes.rayon=ray;
+    INSERT INTO PERSONNES VALUES(seq_id_p.nextval,prenom, nom,adresse, tel);
+    INSERT INTO Employes VALUES(seq_id_empl.nextval,id_c,ray,h_e,h_d,seq_id_p.CURRVAL);
+    
+  --ELSE
+   -- RAISE mauvais_rayon;
+    
+  --END IF;
+  
+EXCEPTION
+  WHEN mauvais_rayon THEN
+    dbms_output.put_line('Le rayon n existe pas');
+END;
+/
 
 
 
 
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Sarah', 'Croche', '17 rue de la medecine', '0645123669');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,103,to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));            
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Eddy', 'Tudor', '15 rue de la couette', '0548384756');
+INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('24-01-2015','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
 
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Sam', 'Convient', '14 rue du poney', '0635687899');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,103,to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS')); 
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Jean-Régis', 'Treux', '19 boulevard de la cassette', '0645346756');
+INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('16-11-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
 
-INSERT INTO Personnes VALUES(seq_id_empl.nextval, 'Paul', 'Ution', '16 rue de la Faculé', '0632457898');
-INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,103,to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));  
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Jean', 'Bon-Beurre', '17 rue du sandwich', '0685721514');
+INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('16-10-2014','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
+
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Valery', 'Iettes', '13 rue du gras', '0612967584');
+INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('16-10-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
+
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Vladimir', 'Vaisselle', '17 rue du nettayant', '0678965236');
+INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('16-10-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
+
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Theo', 'Remme', '08 avenue de Pythagore', '0645728589');
+INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('15-11-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
+
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Sebastien', 'Moi-ca', '13 rue du maintien', '0632568975');
+INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('08-09-2014','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
+
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Manu', 'Tension', '8 impasse du transpallete', '0612457896');
+INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('01-10-2014','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
+
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Thomas', 'Ster', '03 rue ALMA', '0632458996');
+INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('01-12-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
+
+INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Therese', 'Ponsable du Matos', '17 rue du placard', '0632569878');
+INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('11-02-2014','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
+
+
+
+
+
+
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Harry', 'Cobeurre', '02 rue de la cantine', '0635968658');
+INSERT INTO Employes VALUES (seq_id_empl.nextval,seq_id_chef.nextval,'Films',to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'),seq_id_p.CURRVAL);
+INSERT INTO Chefs VALUES (seq_id_chef.CURRVAL,seq_id_empl.CURRVAL);
+
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Laurent', 'Gina', '03 avenue du soda', '0632457896');
+INSERT INTO Employes VALUES (seq_id_empl.nextval,seq_id_chef.nextval,'Livres',to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'),seq_id_p.CURRVAL);
+INSERT INTO Chefs VALUES (seq_id_chef.CURRVAL,seq_id_empl.CURRVAL);
+
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Otto', 'Matik', '01 rue du distributeur', '0647856329');
+INSERT INTO Employes VALUES (seq_id_empl.nextval,seq_id_chef.nextval,'Disques',to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'),seq_id_p.CURRVAL);
+INSERT INTO Chefs VALUES (seq_id_chef.CURRVAL,seq_id_empl.CURRVAL);
+
+Select * from employes;
+
+
+BEGIN
+  add_empl('Ines','Peré', '03 rue de la cantine', '0634519765','Disques',to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));
+  add_empl('Sam', 'Convient', '05 rue de la frite', '0643596784','Disques',to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));
+  add_empl('Sacha', 'Touille', '02 rue des nuages', '0645798613','Films',to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));
+  add_empl('Vincent', 'Time', '12 boulevard du Dolez', '0654789635','Disques',to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));
+  add_empl('Thomas', 'Wak', '12 avenue des songes', '0656325269','Disques',to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));
+  add_empl('Terry', 'Gollo', '14 impasse de la foret', '0635427896','Films',to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));
+  add_empl('Sarah', 'Croche', '17 rue de la medecine', '0645123669','Films',to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));
+  add_empl('Paul', 'Ution', '16 rue de la Faculé', '0632457898','Livres',to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));
+  
+END;
+/
+
+
+
 
 INSERT INTO Medias VALUES('001', 'The Score', 'hip hop', to_date('1995', 'YYYY'));
 INSERT INTO Medias VALUES('002', 'Kaya', 'reggae', to_date('1978', 'YYYY'));
@@ -300,4 +338,3 @@ INSERT INTO Livres VALUES('608','Arthur Conan Doyle', 'Hachette');
 
 INSERT INTO EMPRUNTS VALUES('001','602',to_date('12-02-2015','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('010','602',to_date('12-04-2015','DD-MM-YYYY'),'');
-*/
