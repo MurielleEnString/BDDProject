@@ -166,6 +166,11 @@ INCREMENT BY 1
 NOCYCLE
 MAXVALUE 999;
 
+--INSERT INTO Personnes VALUES(seq_id_empl.nextval,'Ines' , 'Peré', '03 rue de la cantine', '0634519765');
+--INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,101,to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS')); 
+
+
+
 
 
 SET serveroutput ON;
@@ -179,22 +184,10 @@ create or replace PROCEDURE add_empl(nom IN VARCHAR2,
 IS
   id_c NUMBER(3);
   l VARCHAR2(30);
-  mauvais_rayon EXCEPTION;
 BEGIN
-  --IF (ray = 'Films') OR (LOWER(ray)='livres') OR (ray='Disques') 
-  --THEN
     SELECT Employes.id_chef INTO id_c FROM Employes, Chefs WHERE Employes.id_empl=Chefs.id_empl AND Employes.rayon=ray;
     INSERT INTO PERSONNES VALUES(seq_id_p.nextval,prenom, nom,adresse, tel);
     INSERT INTO Employes VALUES(seq_id_empl.nextval,id_c,ray,h_e,h_d,seq_id_p.CURRVAL);
-    
-  --ELSE
-   -- RAISE mauvais_rayon;
-    
-  --END IF;
-  
-EXCEPTION
-  WHEN mauvais_rayon THEN
-    dbms_output.put_line('Le rayon n existe pas');
 END;
 /
 
@@ -217,7 +210,7 @@ INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Vladimir', 'Vaisselle', '17 rue 
 INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('16-10-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
 
 INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Theo', 'Remme', '08 avenue de Pythagore', '0645728589');
-INSERT INTO Clients VALUES (seq_id_cl.CURRVAL,to_date('15-11-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
+INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('15-11-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
 
 INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Sebastien', 'Moi-ca', '13 rue du maintien', '0632568975');
 INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('08-09-2014','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
@@ -228,7 +221,7 @@ INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('01-10-2014','DD-MM-YYYY')
 INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Thomas', 'Ster', '03 rue ALMA', '0632458996');
 INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('01-12-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
 
-INSERT INTO Personnes VALUES(seq_id_cl.nextval, 'Therese', 'Ponsable du Matos', '17 rue du placard', '0632569878');
+INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Therese', 'Ponsable du Matos', '17 rue du placard', '0632569878');
 INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('11-02-2014','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
 
 
@@ -248,8 +241,6 @@ INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Otto', 'Matik', '01 rue du distr
 INSERT INTO Employes VALUES (seq_id_empl.nextval,seq_id_chef.nextval,'Disques',to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'),seq_id_p.CURRVAL);
 INSERT INTO Chefs VALUES (seq_id_chef.CURRVAL,seq_id_empl.CURRVAL);
 
-Select * from employes;
-
 
 BEGIN
   add_empl('Ines','Peré', '03 rue de la cantine', '0634519765','Disques',to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS'));
@@ -263,6 +254,7 @@ BEGIN
   
 END;
 /
+
 
 
 
