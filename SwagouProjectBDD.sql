@@ -18,7 +18,8 @@ CREATE TABLE Personnes(
             prenom VARCHAR2(20),
             adresse VARCHAR2(50),
             tel NUMBER(10),
-            CONSTRAINT Personnes_pk PRIMARY KEY (id_p));
+            CONSTRAINT Personnes_pk PRIMARY KEY (id_p),
+            CONSTRAINT Personnes_fk FOREIGN KEY (id_p) REFERENCES Clients(id_p) );
             
 
 
@@ -28,7 +29,8 @@ CREATE TABLE Clients(
             duree_ab NUMBER(2),
             id_p NUMBER(3),
             CONSTRAINT clients_pk PRIMARY KEY (id_cl),
-            CONSTRAINT clients_fk FOREIGN KEY (id_p) REFERENCES Personnes(id_p));
+            CONSTRAINT clients_fk1 FOREIGN KEY (id_p) REFERENCES Personnes(id_p),
+            CONSTRAINT clients_fk2 FOREIGN KEY (id_cl) REFERENCES Cles(id_cl));
 
 
             
@@ -40,13 +42,14 @@ CREATE TABLE Employes(
             heure_emb DATE,
             heure_deb DATE,
             CONSTRAINT employes_pk PRIMARY KEY (id_empl),
-            CONSTRAINT Employes_fk FOREIGN KEY (id_chef) REFERENCES Chefs(id_chef));
+            CONSTRAINT Employes_fk1 FOREIGN KEY (id_chef) REFERENCES Chefs(id_chef),
+            CONSTRAINT Employes_fk2 FOREIGN KEY (id_empl) REFERENCES Cles(id_empl));
             
 CREATE TABLE Chefs(
             id_chef NUMBER(3),
             id_empl VARCHAR(20),
             CONSTRAINT chefs_pk PRIMARY KEY (id_chef),
-            CONSTRAINT chefs_fk FOREIGN KEY (id_id_empl) REFERENCES Employes(id_empl));
+            CONSTRAINT chefs_fk FOREIGN KEY (id_empl) REFERENCES Employes(id_empl));
             
             
 CREATE TABLE Medias(
@@ -58,7 +61,8 @@ CREATE TABLE Medias(
             editeur VARCHAR2(40),
             groupe VARCHAR2(40),
             realisateur VARCHAR2(40),
-            CONSTRAINT medias_pk PRIMARY KEY (ref_m));
+            CONSTRAINT medias_pk PRIMARY KEY (ref_m),
+            CONSTRAINT Medias_fk FOREIGN KEY (ref_m) REFERENCES Cles(ref_m));
             
             
 CREATE TABLE Emprunts(
@@ -68,14 +72,16 @@ CREATE TABLE Emprunts(
             date_ret_reelle DATE,
             CONSTRAINT emprunts_pk PRIMARY KEY (id_cl, ref_m, date_emp),
             CONSTRAINT emprunts_fk1 FOREIGN KEY (id_cl) REFERENCES Clients(id_cl),
-            CONSTRAINT emprunts_fk2 FOREIGN KEY (ref_m) REFERENCES Medias(ref_m));
+            CONSTRAINT emprunts_fk2 FOREIGN KEY (ref_m) REFERENCES Medias(ref_m),
+            CONSTRAINT emprunts_fk3 FOREIGN KEY (date_emp) REFERENCES Cles(date_emp));
             
 CREATE TABLE Emprunts2(
             ref_m NUMBER(3),
             date_emp DATE,
             date_ret_prevue DATE,
             CONSTRAINT emprunts2_pk PRIMARY KEY (ref_m, date_emp),
-            CONSTRAINT emprunts_fk FOREIGN KEY (ref_m) REFERENCES Medias(ref_m));
+            CONSTRAINT emprunts2_fk1 FOREIGN KEY (ref_m) REFERENCES Medias(ref_m),
+            CONSTRAINT emprunts2_fk2 FOREIGN KEY (date_emp) REFERENCES Cles(date_emp));
             
             
 CREATE TABLE Livres(
