@@ -26,8 +26,9 @@ CREATE TABLE Clients(
             id_cl NUMBER(3),
             date_ab DATE,
             duree_ab NUMBER(2),
+            id_p NUMBER(3),
             CONSTRAINT clients_pk PRIMARY KEY (id_cl),
-            CONSTRAINT clients_fk FOREIGN KEY (id_cl) REFERENCES Personnes(id_p));
+            CONSTRAINT clients_fk FOREIGN KEY (id_p) REFERENCES Personnes(id_p));
 
 
             
@@ -35,23 +36,28 @@ CREATE TABLE Clients(
 CREATE TABLE Employes(
             id_empl NUMBER(3),
             id_chef NUMBER(3),
+            rayon VARCHAR2(30),
             heure_emb DATE,
             heure_deb DATE,
             CONSTRAINT employes_pk PRIMARY KEY (id_empl),
-            CONSTRAINT Employes_fk FOREIGN KEY (id_empl) REFERENCES Personnes(id_p));
+            CONSTRAINT Employes_fk FOREIGN KEY (id_chef) REFERENCES Chefs(id_chef));
             
 CREATE TABLE Chefs(
             id_chef NUMBER(3),
-            rayon VARCHAR(20),
+            id_empl VARCHAR(20),
             CONSTRAINT chefs_pk PRIMARY KEY (id_chef),
-            CONSTRAINT chefs_fk FOREIGN KEY (id_chef) REFERENCES Employes(id_empl));
+            CONSTRAINT chefs_fk FOREIGN KEY (id_id_empl) REFERENCES Employes(id_empl));
             
             
 CREATE TABLE Medias(
             ref_m NUMBER(3),
+            type_m VARCHAR2(20),
             titre VARCHAR2(40),
             genre VARCHAR2(20),
             annee DATE,
+            editeur VARCHAR2(40),
+            groupe VARCHAR2(40),
+            realisateur VARCHAR2(40),
             CONSTRAINT medias_pk PRIMARY KEY (ref_m));
             
             
@@ -73,26 +79,34 @@ CREATE TABLE Emprunts2(
             
             
 CREATE TABLE Livres(
-          ref_l NUMBER(3),
+          titre VARCHAR2(30),
           auteur VARCHAR2(30),
           editeur VARCHAR2(30),
-          CONSTRAINT livres_pk PRIMARY KEY (ref_l),
-          CONSTRAINT livres_fk FOREIGN KEY (ref_l) REFERENCES Medias(ref_m));
+          CONSTRAINT livres_pk PRIMARY KEY (titre, editeur),
+          CONSTRAINT livres_fk FOREIGN KEY (titre,editeur) REFERENCES Medias(titre,editeur));
            
 CREATE TABLE Films(
-          ref_f NUMBER(3),
+          titre VARCHAR2(30),
           realisateur VARCHAR2(20),
-          duree NUMBER(3),
-          CONSTRAINT films_pk PRIMARY KEY (ref_f),
-          CONSTRAINT films_fk FOREIGN KEY (ref_f) REFERENCES Medias(ref_m));
+          duree_f NUMBER(3),
+          CONSTRAINT films_pk PRIMARY KEY (titre, realisateur),
+          CONSTRAINT films_fk FOREIGN KEY (titre, realisateur) REFERENCES Medias(titre, realisateur));
           
 CREATE TABLE Disques(
-          ref_d NUMBER(3),
+          titre NUMBER(3),
           groupe VARCHAR2(30),
           nb_pistes NUMBER(2),
-          duree NUMBER(2),
-          CONSTRAINT disques_pk PRIMARY KEY (ref_d),
-          CONSTRAINT disques_fk FOREIGN KEY (ref_d) REFERENCES Medias(ref_m));
+          duree_d NUMBER(2),
+          CONSTRAINT disques_pk PRIMARY KEY (titre, groupe),
+          CONSTRAINT disques_fk FOREIGN KEY (titre, groupe) REFERENCES Medias(titre, groupe));
+          
+CREATE TABLE Cles(
+          id_empl NUMBER(3),
+          id_cl NUMBER(3),
+          ref_m NUMBER(3),
+          date_emp DATE,
+          CONSTRAINT Cles_pk PRIMARY KEY (id_empl,id_cl,ref_m,date_emp));
+          
           
           
 CREATE OR REPLACE TRIGGER ajout_emprunts2
@@ -299,4 +313,5 @@ INSERT INTO Livres VALUES('608','Arthur Conan Doyle', 'Hachette');
 
 
 INSERT INTO EMPRUNTS VALUES('001','602',to_date('12-02-2015','DD-MM-YYYY'),'');
+INSERT INTO EMPRUNTS VALUES('010','602',to_date('12-04-2015','DD-MM-YYYY'),'');
           
