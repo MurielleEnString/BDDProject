@@ -2,7 +2,9 @@ DROP SEQUENCE seq_id_cl;
 DROP SEQUENCE seq_id_empl;
 DROP SEQUENCE seq_id_chef;
 DROP SEQUENCE seq_id_p;
-
+DROP SEQUENCE seq_id_cd;
+DROP SEQUENCE seq_id_film;
+DROP SEQUENCE seq_id_livre;
 
 DROP TABLE Disques;
 DROP TABLE Films;
@@ -49,7 +51,7 @@ CREATE TABLE Chefs(
             
 CREATE TABLE Medias(
             ref_m NUMBER(3),
-            type_m VARCHAR2(20),
+            type_m VARCHAR2(20) check(type_m='Livre' OR type_m='Film' OR type_m='Disque'),
             titre VARCHAR2(40),
             genre VARCHAR2(20),
             annee DATE,
@@ -89,14 +91,54 @@ CREATE TABLE Films(
           CONSTRAINT films_pk PRIMARY KEY (titre, realisateur));
           
 CREATE TABLE Disques(
-          titre NUMBER(3),
+          titre VARCHAR2(40),
           groupe VARCHAR2(30),
           nb_pistes NUMBER(2),
-          duree_d NUMBER(2),
+          duree_d NUMBER(3),
           CONSTRAINT disques_pk PRIMARY KEY (titre, groupe));
           
 
-          
+CREATE SEQUENCE seq_id_cl
+START WITH 1
+INCREMENT BY 1
+NOCYCLE
+MAXVALUE 999;
+
+CREATE SEQUENCE seq_id_p
+START WITH 1
+INCREMENT BY 1
+NOCYCLE
+MAXVALUE 999;
+
+CREATE SEQUENCE seq_id_empl
+START WITH 1
+INCREMENT BY 1
+NOCYCLE
+MAXVALUE 999;
+
+CREATE SEQUENCe seq_id_chef
+START WITH 1
+INCREMENT BY 1
+NOCYCLE
+MAXVALUE 999;
+
+CREATE SEQUENCe seq_id_cd
+START WITH 1
+INCREMENT BY 1
+NOCYCLE
+MAXVALUE 299;
+
+CREATE SEQUENCe seq_id_film
+START WITH 300
+INCREMENT BY 1
+NOCYCLE
+MAXVALUE 599;
+
+CREATE SEQUENCe seq_id_livre
+START WITH 600
+INCREMENT BY 1
+NOCYCLE
+MAXVALUE 999; 
           
 /*          
 CREATE OR REPLACE TRIGGER ajout_emprunts2
@@ -142,38 +184,16 @@ EXCEPTION
 END; 
 /         
 */
-CREATE SEQUENCE seq_id_cl
-START WITH 1
-INCREMENT BY 1
-NOCYCLE
-MAXVALUE 999;
-
-CREATE SEQUENCE seq_id_p
-START WITH 1
-INCREMENT BY 1
-NOCYCLE
-MAXVALUE 999;
-
-CREATE SEQUENCE seq_id_empl
-START WITH 1
-INCREMENT BY 1
-NOCYCLE
-MAXVALUE 999;
-
-CREATE SEQUENCe seq_id_chef
-START WITH 1
-INCREMENT BY 1
-NOCYCLE
-MAXVALUE 999;
-
---INSERT INTO Personnes VALUES(seq_id_empl.nextval,'Ines' , 'Peré', '03 rue de la cantine', '0634519765');
---INSERT INTO Employes VALUES (seq_id_empl.CURRVAL,101,to_date('09:00:00','HH24:MI:SS'),to_date('17:00:00','HH24:MI:SS')); 
 
 
 
 
 
-SET serveroutput ON;
+
+
+
+
+
 create or replace PROCEDURE add_empl(nom IN VARCHAR2, 
                                     prenom IN VARCHAR2, 
                                     adresse IN VARCHAR2, 
@@ -183,11 +203,50 @@ create or replace PROCEDURE add_empl(nom IN VARCHAR2,
                                     h_d IN DATE)
 IS
   id_c NUMBER(3);
-  l VARCHAR2(30);
 BEGIN
     SELECT Employes.id_chef INTO id_c FROM Employes, Chefs WHERE Employes.id_empl=Chefs.id_empl AND Employes.rayon=ray;
     INSERT INTO PERSONNES VALUES(seq_id_p.nextval,prenom, nom,adresse, tel);
     INSERT INTO Employes VALUES(seq_id_empl.nextval,id_c,ray,h_e,h_d,seq_id_p.CURRVAL);
+END;
+/
+
+CREATE OR REPLACE PROCEDURE add_cd(titre IN VARCHAR2,
+                                    genre IN VARCHAR2,
+                                    annee IN DATE,
+                                    groupe IN VARCHAR2,
+                                    nb_pistes IN NUMBER,
+                                    duree IN NUMBER)
+IS
+  
+BEGIN
+    INSERT INTO Medias VALUES(seq_id_cd.nextval,'Disque',titre, genre, annee,'',groupe,'');
+    INSERT INTO Disques VALUES(titre,groupe, nb_pistes,duree);
+END;
+/
+
+CREATE OR REPLACE PROCEDURE add_film(titre IN VARCHAR2,
+                                    genre IN VARCHAR2,
+                                    annee IN DATE,
+                                    realisateur IN VARCHAR2,
+                                    duree IN NUMBER)
+IS
+  
+BEGIN
+    INSERT INTO Medias VALUES(seq_id_film.nextval,'Film',titre, genre, annee,'','',realisateur);
+    INSERT INTO Films VALUES(titre,realisateur,duree);
+END;
+/
+
+CREATE OR REPLACE PROCEDURE add_livre(titre IN VARCHAR2,
+                                    genre IN VARCHAR2,
+                                    annee IN DATE,
+                                    auteur IN VARCHAR2,
+                                    editeur IN VARCHAR2)
+IS
+  
+BEGIN
+    INSERT INTO Medias VALUES(seq_id_livre.nextval,'Livre',titre, genre, annee,editeur,'','');
+    INSERT INTO Livres VALUES(titre,auteur,editeur);
 END;
 /
 
@@ -258,75 +317,42 @@ END;
 
 
 
-
-INSERT INTO Medias VALUES('001', 'The Score', 'hip hop', to_date('1995', 'YYYY'));
-INSERT INTO Medias VALUES('002', 'Kaya', 'reggae', to_date('1978', 'YYYY'));
-INSERT INTO Medias VALUES('003', 'Led Zeppelin', 'rock', to_date('1969', 'YYYY'));
-INSERT INTO Medias VALUES('004', 'La mauvaise réputation', 'chanson française', to_date('1952', 'YYYY'));
-INSERT INTO Medias VALUES('005', 'Birdy Nam Nam', 'electro', to_date('2005', 'YYYY'));
-INSERT INTO Medias VALUES('006', 'Tetra', 'electro', to_date('2012', 'YYYY'));
-INSERT INTO Medias VALUES('007', 'Appetite for destruction', 'rock', to_date('1987', 'YYYY'));
-INSERT INTO Medias VALUES('008', 'Savane', 'africain blues', to_date('1987', 'YYYY'));
-INSERT INTO Medias VALUES('009', 'Londinium', 'trip hop', to_date('1996', 'YYYY'));
-INSERT INTO Medias VALUES('300', 'Fantastic Mr Fox', 'animation', to_date('2010', 'YYYY'));
-INSERT INTO Medias VALUES('301', 'La famille Tenenbaum', 'comédie', to_date('2002', 'YYYY'));
-INSERT INTO Medias VALUES('302', 'La haine', 'drame', to_date('1995', 'YYYY'));
-INSERT INTO Medias VALUES('303', 'Le créateur', 'comédie', to_date('2001', 'YYYY'));
-INSERT INTO Medias VALUES('304', 'The Man From Earth', 'drame', to_date('2011', 'YYYY'));
-INSERT INTO Medias VALUES('305', 'Les tontons flingueurs', 'drame', to_date('1963', 'YYYY'));
-INSERT INTO Medias VALUES('306', 'Minuit à Paris', 'comédie', to_date('2011', 'YYYY'));
-INSERT INTO Medias VALUES('307', 'Scoop', 'comédie', to_date('2006', 'YYYY'));
-INSERT INTO Medias VALUES('308', 'Chat noir chat blanc', 'comédie', to_date('1998', 'YYYY'));
-INSERT INTO Medias VALUES('309', 'Sacré graal', 'comédie', to_date('1975', 'YYYY'));
-INSERT INTO Medias VALUES('310', 'Le sens de la vie', 'comédie', to_date('1983', 'YYYY'));
-INSERT INTO Medias VALUES('311', 'La cité de la peur', 'comédie', to_date('1994', 'YYYY'));
-INSERT INTO Medias VALUES('312', 'La stratégie de l echec', 'comédie', to_date('2001', 'YYYY'));
-INSERT INTO Medias VALUES('600', 'La huitième couleur', 'fantaisie', to_date('1983', 'YYYY'));
-INSERT INTO Medias VALUES('601', 'Le huitième sortilège', 'fantaisie', to_date('1986', 'YYYY'));
-INSERT INTO Medias VALUES('602', 'Le petit prince', 'conte', to_date('1943', 'YYYY'));
-INSERT INTO Medias VALUES('603', 'L aube de Fondation', 'Science fiction', to_date('1993', 'YYYY'));
-INSERT INTO Medias VALUES('604', 'V pour Vendetta', 'Comics', to_date('1993', 'YYYY'));
-INSERT INTO Medias VALUES('605', 'Germinal', 'Roman', to_date('1885', 'YYYY'));
-INSERT INTO Medias VALUES('606', 'Les fleurs du mal', 'Pésie', to_date('1857', 'YYYY'));
-INSERT INTO Medias VALUES('607', 'La communauté de l anneau', 'fantasie', to_date('1954', 'YYYY'));
-INSERT INTO Medias VALUES('608', 'Une étude en rouge', 'policier', to_date('1887', 'YYYY'));
-
-
-INSERT INTO Films VALUES('300', 'Wes Anderson', '88');
-INSERT INTO Films VALUES('301', 'Wes Anderson', '108');
-INSERT INTO Films VALUES('302', 'Mathieu Kassovitz', '95');
-INSERT INTO Films VALUES('303', 'Albert Dupontel', '92');
-INSERT INTO Films VALUES('304', 'Richard Schenkman', '87');
-INSERT INTO Films VALUES('305', 'Georges Lautner', '105');
-INSERT INTO Films VALUES('306', 'Woody Allen', '94');
-INSERT INTO Films VALUES('307', 'Woody Allen', '96');
-INSERT INTO Films VALUES('308', 'Emir Kusturica', '127');
-INSERT INTO Films VALUES('309', 'Monty Python', '90');
-INSERT INTO Films VALUES('310', 'Monty Python', '107');
-INSERT INTO Films VALUES('311', 'Alain Berbérian', '109');
-INSERT INTO Films VALUES('312', 'Dominique Farrugia', '109');
-
-
-INSERT INTO Disques VALUES('001','Fugees', '13', '73');
-INSERT INTO Disques VALUES('002','Bob Marley and the Wailers', '10', '36');
-INSERT INTO Disques VALUES('003','Led Zeppelin', '13', '44');
-INSERT INTO Disques VALUES('004','Georges Brassens', '8', '19');
-INSERT INTO Disques VALUES('005','Birdy Nam Nam', '17', '57');
-INSERT INTO Disques VALUES('006','C2C', '14', '57');
-INSERT INTO Disques VALUES('007','Guns n Roses', '12', '53');
-INSERT INTO Disques VALUES('008','Ali Farka Toure', '13', '58');
-INSERT INTO Disques VALUES('009','Archive', '14', '61');
-
-INSERT INTO Livres VALUES('600','Terry Pratchett', 'Colin Smythe');
-INSERT INTO Livres VALUES('601','Terry Pratchett', 'Colin Smythe');
-INSERT INTO Livres VALUES('602','Antoine de Saint-Exupéry', 'Colin Smythe');
-INSERT INTO Livres VALUES('603','Isaac Asimov', 'Presse de la cité');
-INSERT INTO Livres VALUES('604','Alan Moore', 'Quality Comics/Warrior');
-INSERT INTO Livres VALUES('605','Emile Zola', 'Gil Blas');
-INSERT INTO Livres VALUES('606','Charles Baudelaire', 'Auguste Poulet-Malassis');
-INSERT INTO Livres VALUES('607','J.R.R. Tolkien', 'Allen and Unwin');
-INSERT INTO Livres VALUES('608','Arthur Conan Doyle', 'Hachette');
-
+BEGIN
+  add_cd('The Score', 'hip hop', to_date('1995', 'YYYY'),'Fugees', '13', '73');
+  add_cd( 'Kaya', 'reggae', to_date('1978', 'YYYY'),'Bob Marley and the Wailers', '10', '36');
+  add_cd('Led Zeppelin', 'rock', to_date('1969', 'YYYY'),'Led Zeppelin', '13', '44');
+  add_cd('La mauvaise réputation', 'chanson française', to_date('1952', 'YYYY'),'Georges Brassens', '8', '19');
+  add_cd('Birdy Nam Nam', 'electro', to_date('2005', 'YYYY'),'Birdy Nam Nam', '17', '57');
+  add_cd('Tetra', 'electro', to_date('2012', 'YYYY'),'C2C', '14', '57');
+  add_cd('Appetite for destruction', 'rock', to_date('1987', 'YYYY'),'Guns n Roses', '12', '53');
+  add_cd('Savane', 'africain blues', to_date('1987', 'YYYY'),'Ali Farka Toure', '13', '58');
+  add_cd('Londinium', 'trip hop', to_date('1996', 'YYYY'),'Archive', '14', '61');
+  
+  add_film('Fantastic Mr Fox', 'animation', to_date('2010', 'YYYY'),'Wes Anderson', '88');
+  add_film('La famille Tenenbaum', 'comédie', to_date('2002', 'YYYY'),'Wes Anderson', '108');
+  add_film('La haine', 'drame', to_date('1995', 'YYYY'), 'Mathieu Kassovitz', '95');
+  add_film('Le créateur', 'comédie', to_date('2001', 'YYYY'), 'Albert Dupontel', '92');
+  add_film('The Man From Earth', 'drame', to_date('2011', 'YYYY'), 'Richard Schenkman', '87');
+  add_film('Les tontons flingueurs', 'drame', to_date('1963', 'YYYY'), 'Georges Lautner', '105');
+  add_film('Minuit à Paris', 'comédie', to_date('2011', 'YYYY'), 'Woody Allen', '94');
+  add_film('Scoop', 'comédie', to_date('2006', 'YYYY'), 'Woody Allen', '96');
+  add_film('Chat noir chat blanc', 'comédie', to_date('1998', 'YYYY'), 'Emir Kusturica', '127');
+  add_film('Sacré graal', 'comédie', to_date('1975', 'YYYY'), 'Monty Python', '90');
+  add_film('Le sens de la vie', 'comédie', to_date('1983', 'YYYY'), 'Monty Python', '107');
+  add_film('La cité de la peur', 'comédie', to_date('1994', 'YYYY'), 'Alain Berbérian', '109');
+  add_film('La stratégie de l echec', 'comédie', to_date('2001', 'YYYY'), 'Dominique Farrugia', '109');
+  
+  add_livre('La huitième couleur', 'fantaisie', to_date('1983', 'YYYY'),'Terry Pratchett', 'Colin Smythe');
+  add_livre('Le huitième sortilège', 'fantaisie', to_date('1986', 'YYYY'),'Terry Pratchett', 'Colin Smythe');
+  add_livre('Le petit prince', 'conte', to_date('1943', 'YYYY'),'Antoine de Saint-Exupéry', 'Colin Smythe');
+  add_livre('L aube de Fondation', 'Science fiction', to_date('1993', 'YYYY'),'Isaac Asimov', 'Presse de la cité');
+  add_livre( 'V pour Vendetta', 'Comics', to_date('1993', 'YYYY'),'Alan Moore', 'Quality Comics/Warrior');
+  add_livre('Germinal', 'Roman', to_date('1885', 'YYYY'),'Emile Zola', 'Gil Blas');
+  add_livre('Les fleurs du mal', 'Pésie', to_date('1857', 'YYYY'),'Charles Baudelaire', 'Auguste Poulet-Malassis');
+  add_livre('La communauté de l anneau', 'fantasie', to_date('1954', 'YYYY'),'J.R.R. Tolkien', 'Allen and Unwin');
+  add_livre('Une étude en rouge', 'policier', to_date('1887', 'YYYY'),'Arthur Conan Doyle', 'Hachette');
+END;
+/
 
 INSERT INTO EMPRUNTS VALUES('001','602',to_date('12-02-2015','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('010','602',to_date('12-04-2015','DD-MM-YYYY'),'');
