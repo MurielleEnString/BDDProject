@@ -1,3 +1,5 @@
+/* DROP de toute la base */
+
 DROP SEQUENCE seq_id_cl;
 DROP SEQUENCE seq_id_empl;
 DROP SEQUENCE seq_id_chef;
@@ -17,13 +19,17 @@ DROP TABLE Employes;
 DROP TABLE Clients;
 DROP TABLE Personnes;
 
+/* Creationd es differents tables */
+
+/* table Clients /*
 CREATE TABLE Clients(
             id_cl NUMBER(3),
             date_ab DATE,
             duree_ab NUMBER(2),
             id_p NUMBER(3),
             CONSTRAINT clients_pk PRIMARY KEY (id_cl));
-            
+
+/* table Personnes /*
 CREATE TABLE Personnes(
             id_p NUMBER(3),
             nom VARCHAR2(20),
@@ -31,7 +37,8 @@ CREATE TABLE Personnes(
             adresse VARCHAR2(50),
             tel NUMBER(10),
             CONSTRAINT Personnes_pk PRIMARY KEY (id_p));
-            
+
+/* table Employes /
 CREATE TABLE Employes(
             id_empl NUMBER(3),
             id_chef NUMBER(3),
@@ -41,14 +48,14 @@ CREATE TABLE Employes(
             id_p NUMBER(3),
             CONSTRAINT employes_pk PRIMARY KEY (id_empl));
             
-            
+/* table Chefs */
 CREATE TABLE Chefs(
             id_chef NUMBER(3),
             id_empl NUMBER(3),
             CONSTRAINT chefs_pk PRIMARY KEY (id_chef),
             CONSTRAINT chefs_fk FOREIGN KEY (id_empl) REFERENCES Employes(id_empl));
             
-            
+/* table Medias */
 CREATE TABLE Medias(
             ref_m NUMBER(3),
             type_m VARCHAR2(20) check(type_m='Livre' OR type_m='Film' OR type_m='Disque'),
@@ -60,7 +67,7 @@ CREATE TABLE Medias(
             realisateur VARCHAR2(40),
             CONSTRAINT medias_pk PRIMARY KEY (ref_m));
             
-            
+/* table Emprunts */            
 CREATE TABLE Emprunts(
             id_cl NUMBER(3),
             ref_m NUMBER(3),
@@ -69,7 +76,8 @@ CREATE TABLE Emprunts(
             CONSTRAINT emprunts_pk PRIMARY KEY (id_cl, ref_m, date_emp),
             CONSTRAINT emprunts_fk1 FOREIGN KEY (id_cl) REFERENCES Clients(id_cl),
             CONSTRAINT emprunts_fk2 FOREIGN KEY (ref_m) REFERENCES Medias(ref_m));
-            
+
+/* table Emprunt */   
 CREATE TABLE Emprunts2(
             ref_m NUMBER(3),
             date_emp DATE,
@@ -77,19 +85,21 @@ CREATE TABLE Emprunts2(
             CONSTRAINT emprunts2_pk PRIMARY KEY (ref_m, date_emp),
             CONSTRAINT emprunts2_fk1 FOREIGN KEY (ref_m) REFERENCES Medias(ref_m));
             
-            
+/* table Livres */            
 CREATE TABLE Livres(
           titre VARCHAR2(30),
           auteur VARCHAR2(30),
           editeur VARCHAR2(30),
           CONSTRAINT livres_pk PRIMARY KEY (titre, editeur));
-           
+
+/* table Films */           
 CREATE TABLE Films(
           titre VARCHAR2(30),
           realisateur VARCHAR2(20),
           duree_f NUMBER(3),
           CONSTRAINT films_pk PRIMARY KEY (titre, realisateur));
-          
+
+/* table Disques */          
 CREATE TABLE Disques(
           titre VARCHAR2(40),
           groupe VARCHAR2(30),
@@ -97,51 +107,57 @@ CREATE TABLE Disques(
           duree_d NUMBER(3),
           CONSTRAINT disques_pk PRIMARY KEY (titre, groupe));
           
-
+/* sequence seq_id_cl, pour les numeros des clients */
 CREATE SEQUENCE seq_id_cl
 START WITH 1
 INCREMENT BY 1
 NOCYCLE
 MAXVALUE 999;
 
+/* sequence seq_id_p, pour les numeros des personnes */
 CREATE SEQUENCE seq_id_p
 START WITH 1
 INCREMENT BY 1
 NOCYCLE
 MAXVALUE 999;
 
+/* sequence seq_id_empl, pour les numeros des employés */
 CREATE SEQUENCE seq_id_empl
 START WITH 1
 INCREMENT BY 1
 NOCYCLE
 MAXVALUE 999;
 
+/* sequence seq_id_chef, pour les numeros des chefs */
 CREATE SEQUENCe seq_id_chef
 START WITH 1
 INCREMENT BY 1
 NOCYCLE
 MAXVALUE 999;
 
+/* sequence seq_id_cd, pour les numeros des cd */
 CREATE SEQUENCe seq_id_cd
 START WITH 1
 INCREMENT BY 1
 NOCYCLE
 MAXVALUE 299;
 
+/* sequence seq_id_cd, pour les numeros des films */
 CREATE SEQUENCe seq_id_film
 START WITH 300
 INCREMENT BY 1
 NOCYCLE
 MAXVALUE 599;
 
+/* sequence seq_id_cd, pour les numeros des livres */
 CREATE SEQUENCe seq_id_livre
 START WITH 600
 INCREMENT BY 1
 NOCYCLE
 MAXVALUE 999; 
           
-          
-CREATE OR REPLACE TRIGGER ajout_emprunts2
+/* trigger qui ajoute un tupple a Emprunt
+CREATE OR REPLACE TRIGGER ajout_emprunts2 apres insertion dans Emprunt */
   AFTER INSERT
   ON EMPRUNTS
   FOR EACH ROW
@@ -155,6 +171,7 @@ END;
 /
 
 SET serveroutput ON;
+/* trigger qui assure qu'un emprunt ne peut etre fait que si le media est disponible */   
 CREATE OR REPLACE TRIGGER verif_emprunt
   BEFORE INSERT
   ON Emprunts
@@ -177,7 +194,7 @@ END;
 /
 
 
-
+/* Vue qui represente touts les media empruntés qui sont en retard */
 CREATE OR REPLACE VIEW retard AS 
 SELECT nom, prenom, EMPRUNTS.ref_m, EMPRUNTS.date_emp
 FROM CLIENTS,PERSONNES, EMPRUNTS, EMPRUNTS2
@@ -228,7 +245,7 @@ END;
 
 
 
-
+/* procedure pour ajouter un employé */
 create or replace PROCEDURE add_empl(nom IN VARCHAR2, 
                                     prenom IN VARCHAR2, 
                                     adresse IN VARCHAR2, 
@@ -245,6 +262,7 @@ BEGIN
 END;
 /
 
+/* procedure pour ajouter un cd */
 CREATE OR REPLACE PROCEDURE add_cd(titre IN VARCHAR2,
                                     genre IN VARCHAR2,
                                     annee IN DATE,
@@ -259,6 +277,7 @@ BEGIN
 END;
 /
 
+/* procedure pour ajouter un film */
 CREATE OR REPLACE PROCEDURE add_film(titre IN VARCHAR2,
                                     genre IN VARCHAR2,
                                     annee IN DATE,
@@ -271,7 +290,8 @@ BEGIN
     INSERT INTO Films VALUES(titre,realisateur,duree);
 END;
 /
-
+ 
+/*procedure pour ajouter un livre */
 CREATE OR REPLACE PROCEDURE add_livre(titre IN VARCHAR2,
                                     genre IN VARCHAR2,
                                     annee IN DATE,
@@ -287,6 +307,7 @@ END;
 
 
 
+/* Insertion de Tupples */
 
 INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Eddy', 'Tudor', '15 rue de la couette', '0548384756');
 INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('24-01-2015','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
@@ -317,11 +338,6 @@ INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('01-12-2014','DD-MM-YYYY')
 
 INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Therese', 'Ponsable du Matos', '17 rue du placard', '0632569878');
 INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('11-02-2014','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
-
-
-
-
-
 
 INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Harry', 'Cobeurre', '02 rue de la cantine', '0635968658');
 INSERT INTO Employes VALUES (seq_id_empl.nextval,seq_id_chef.nextval,'Films',to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'),seq_id_p.CURRVAL);
