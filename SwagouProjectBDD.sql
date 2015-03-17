@@ -140,7 +140,7 @@ INCREMENT BY 1
 NOCYCLE
 MAXVALUE 999; 
           
-/*          
+          
 CREATE OR REPLACE TRIGGER ajout_emprunts2
   AFTER INSERT
   ON EMPRUNTS
@@ -154,6 +154,32 @@ BEGIN
 END;
 /
 
+SET serveroutput ON;
+CREATE OR REPLACE TRIGGER verif_emprunt
+  BEFORE INSERT
+  ON Emprunts
+  FOR EACH ROW
+DECLARE
+  d NUMBER;
+  deja_emprunte EXCEPTION;
+BEGIN
+  SELECT COUNT(*) INTO d
+  FROM Emprunts 
+  WHERE Emprunts.ref_m='602'
+  AND Emprunts.date_ret_reelle is null;
+  IF d=1 THEN
+    RAISE deja_emprunte;
+  END IF;
+EXCEPTION
+  WHEN deja_emprunte THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Le document est déjà emprunté');
+END;
+/
+
+
+
+  
+/*
 CREATE OR REPLACE TRIGGER VERIF_ABONNEMENT 
 BEFORE INSERT ON EMPRUNTS
 FOR EACH ROW
@@ -354,5 +380,9 @@ BEGIN
 END;
 /
 
+select * from emprunts;
+
 INSERT INTO EMPRUNTS VALUES('001','602',to_date('12-02-2015','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('010','602',to_date('12-04-2015','DD-MM-YYYY'),'');
+
+
