@@ -1,6 +1,5 @@
 # BDDProject
 
-Lisez-Moi
 A faire :
 -----------
   * refaire les tuples.
