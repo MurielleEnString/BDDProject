@@ -156,8 +156,8 @@ INCREMENT BY 1
 NOCYCLE
 MAXVALUE 999; 
           
-/* trigger qui ajoute un tupple a Emprunt apres insertion dans Emprunt */
-CREATE OR REPLACE TRIGGER ajout_emprunts2 
+/* trigger qui ajoute un tupple a Emprunt */
+CREATE OR REPLACE TRIGGER ajout_emprunts2
   AFTER INSERT
   ON EMPRUNTS
   FOR EACH ROW
@@ -193,8 +193,7 @@ EXCEPTION
 END;
 /
 
-
-/* Vue qui represente touts les media empruntés qui sont en retard */
+/* Vue qui represente touts les media en retard */
 CREATE OR REPLACE VIEW retard AS 
 SELECT nom, prenom, EMPRUNTS.ref_m, EMPRUNTS.date_emp
 FROM CLIENTS,PERSONNES, EMPRUNTS, EMPRUNTS2
@@ -203,6 +202,14 @@ AND PERSONNES.ID_P=CLIENTS.ID_P
 AND EMPRUNTS.ref_m=EMPRUNTS2.REF_M
 AND EMPRUNTS.DATE_EMP=EMPRUNTS2.DATE_EMP
 AND EMPRUNTS2.DATE_RET_PREVUE<SYSDATE;
+
+
+
+/* Vue qui represente touts les media disponible */
+CREATE OR REPLACE VIEW disponibles AS
+SELECT TITRE FROM MEDIAS WHERE MEDIAS.REF_M NOT IN
+(SELECT REF_M FROM MEDIAS NATURAL JOIN EMPRUNTS);
+
 
 
 /*
@@ -252,9 +259,15 @@ BEGIN
 END;
 /
 
-
-
-
+/* procedure pour afficher les clients d'un rayon */
+/*CREATE OR REPLACE PROCEDURE EMP_RAYON (ray in VARCHAR2)
+IS
+BEGIN
+SELECT PRENOM, NOM FROM PERSONNES,EMPLOYES
+    WHERE PERSONNES.id_p = EMPLOYES.id_p
+    and EMPLOYES.rayon = ray;
+END;
+*/
 
 
 /* procedure pour ajouter un employé */
@@ -423,6 +436,7 @@ INSERT INTO EMPRUNTS VALUES('001','602',to_date('12-02-2015','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('010','602',to_date('12-04-2015','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('004','601',to_date('12-04-2014','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('004','001',to_date('15-03-2015','DD-MM-YYYY'),'');
+
 
 
 
