@@ -156,8 +156,8 @@ INCREMENT BY 1
 NOCYCLE
 MAXVALUE 999; 
           
-/* trigger qui ajoute un tupple a Emprunt */
-CREATE OR REPLACE TRIGGER ajout_emprunts2 apres insertion dans Emprunt 
+/* trigger qui ajoute un tupple a Emprunt apres insertion dans Emprunt */
+CREATE OR REPLACE TRIGGER ajout_emprunts2 
   AFTER INSERT
   ON EMPRUNTS
   FOR EACH ROW
@@ -248,7 +248,7 @@ create or replace PROCEDURE add_cl(nom IN VARCHAR2,
 IS 
 BEGIN
     INSERT INTO PERSONNES VALUES(seq_id_p.nextval,prenom, nom,adresse, tel);
-    INSERT INTO Clients VALUES(seq_id_cl.nextval,date_ab,duree_ab,id_p.CURRVAL);
+    INSERT INTO Clients VALUES(seq_id_cl.nextval,date_ab,duree_ab,seq_id_p.CURRVAL);
 END;
 /
 
@@ -423,7 +423,6 @@ INSERT INTO EMPRUNTS VALUES('001','602',to_date('12-02-2015','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('010','602',to_date('12-04-2015','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('004','601',to_date('12-04-2014','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('004','001',to_date('15-03-2015','DD-MM-YYYY'),'');
-
 
 
 
