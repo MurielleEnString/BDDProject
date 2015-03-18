@@ -259,6 +259,10 @@ BEGIN
 END;
 /
 
+
+
+
+
 /* procedure pour afficher les clients d'un rayon */
 /*CREATE OR REPLACE PROCEDURE EMP_RAYON (ray in VARCHAR2)
 IS
@@ -334,35 +338,22 @@ END;
 
 /* Insertion de Tupples */
 
-INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Eddy', 'Tudor', '15 rue de la couette', '0548384756');
-INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('24-01-2015','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
 
-INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Jean-Régis', 'Treux', '19 boulevard de la cassette', '0645346756');
-INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('16-11-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
-
-INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Jean', 'Bon-Beurre', '17 rue du sandwich', '0685721514');
-INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('16-10-2014','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
-
-INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Valery', 'Iettes', '13 rue du gras', '0612967584');
-INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('16-10-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
-
-INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Vladimir', 'Vaisselle', '17 rue du nettayant', '0678965236');
-INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('16-10-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
-
-INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Theo', 'Remme', '08 avenue de Pythagore', '0645728589');
-INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('15-11-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
-
-INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Sebastien', 'Moi-ca', '13 rue du maintien', '0632568975');
-INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('08-09-2014','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
-
-INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Manu', 'Tension', '8 impasse du transpallete', '0612457896');
-INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('01-10-2014','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
-
-INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Thomas', 'Ster', '03 rue ALMA', '0632458996');
-INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('01-12-2014','DD-MM-YYYY'),'6',seq_id_cl.CURRVAL);
-
-INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Therese', 'Ponsable du Matos', '17 rue du placard', '0632569878');
-INSERT INTO Clients VALUES (seq_id_cl.nextval,to_date('11-02-2014','DD-MM-YYYY'),'12',seq_id_cl.CURRVAL);
+BEGIN
+  add_cl('Eddy', 'Tudor', '15 rue de la couette', '0548384756',to_date('24-01-2015','DD-MM-YYYY'),'12');
+  add_cl('Jean-Régis', 'Treux', '19 boulevard de la cassette', '0645346756',to_date('16-11-2014','DD-MM-YYYY'),'6');
+  add_cl('Jean', 'Bon-Beurre', '17 rue du sandwich', '0685721514',to_date('16-10-2014','DD-MM-YYYY'),'12');
+  add_cl('Valery', 'Iettes', '13 rue du gras', '0612967584',to_date('16-10-2014','DD-MM-YYYY'),'6');
+  add_cl('Vladimir', 'Vaisselle', '17 rue du nettayant', '0678965236',to_date('16-10-2014','DD-MM-YYYY'),'6');
+  add_cl('Theo', 'Remme', '08 avenue de Pythagore', '0645728589',to_date('15-11-2014','DD-MM-YYYY'),'6');
+  add_cl('Sebastien', 'Moi-ca', '13 rue du maintien', '0632568975',to_date('08-09-2014','DD-MM-YYYY'),'12');
+  add_cl('Manu', 'Tension', '8 impasse du transpallete', '0612457896',to_date('01-10-2014','DD-MM-YYYY'),'12');
+  add_cl('Thomas', 'Ster', '03 rue ALMA', '0632458996',to_date('01-12-2014','DD-MM-YYYY'),'6');
+  add_cl('Therese', 'Ponsable du Matos', '17 rue du placard', '0632569878',to_date('11-02-2014','DD-MM-YYYY'),'12');
+END;
+/
+ SELECT * from personnes;
+ 
 
 INSERT INTO Personnes VALUES(seq_id_p.nextval, 'Harry', 'Cobeurre', '02 rue de la cantine', '0635968658');
 INSERT INTO Employes VALUES (seq_id_empl.nextval,seq_id_chef.nextval,'Films',to_date('08:00:00','HH24:MI:SS'),to_date('18:00:00','HH24:MI:SS'),seq_id_p.CURRVAL);
@@ -436,7 +427,6 @@ INSERT INTO EMPRUNTS VALUES('001','602',to_date('12-02-2015','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('010','602',to_date('12-04-2015','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('004','601',to_date('12-04-2014','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('004','001',to_date('15-03-2015','DD-MM-YYYY'),'');
-
 
 
 
