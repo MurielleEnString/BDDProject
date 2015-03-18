@@ -7,3 +7,5 @@ A faire :
   * attribuer des droits.
   * faire des utilisateurs et leur attribuer des droits.
   * créer des indeccccsssssssssszzzzzz.
+  * http://dict.xmatiere.com/suffixes/mots_finissant_en_ope.php
+  * BOURREZ BRO DOL
