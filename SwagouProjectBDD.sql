@@ -264,14 +264,17 @@ END;
 
 
 /* procedure pour afficher les clients d'un rayon */
-/*CREATE OR REPLACE PROCEDURE EMP_RAYON (ray in VARCHAR2)
-IS
-BEGIN
-SELECT PRENOM, NOM FROM PERSONNES,EMPLOYES
+create or replace PROCEDURE EMP_RAYON (ray in VARCHAR2)
+AS
+CURSOR c1 IS
+  SELECT PRENOM, NOM FROM PERSONNES,EMPLOYES
     WHERE PERSONNES.id_p = EMPLOYES.id_p
     and EMPLOYES.rayon = ray;
+BEGIN
+	FOR row IN c1 LOOP
+    dbms_output.put_line(row.nom);
+  END LOOP;
 END;
-*/
 
 
 /* procedure pour ajouter un employé */
