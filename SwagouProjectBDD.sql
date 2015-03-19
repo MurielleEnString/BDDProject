@@ -21,6 +21,7 @@ DROP TABLE Personnes;
 drop user PierreG;
 drop user CedricB;
 drop user TheoD;
+drop user FrancoisH;
 
 /* Creaton d'utilisateurs de la base*/
 
@@ -130,8 +131,11 @@ grant select on Disques to PierreG;
 grant select on Livres to PierreG;
 grant select on Films to PierreG;
 grant select,update,insert on Livres to CedricB;
+GRANT EXECUTE ON add_livre TO CedricB;
 grant select,update,insert on Disques to TheoD;
+GRANT EXECUTE ON add_cd TO TheoD;
 grant select,update,insert on Films to FrancoisH;
+GRANT EXECUTE ON add_film TO FrancoisH;
 
 
 /* Creation des differents sequences */          
@@ -459,6 +463,6 @@ INSERT INTO EMPRUNTS VALUES('010','602',to_date('12-04-2015','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('004','601',to_date('12-04-2014','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('004','001',to_date('15-03-2015','DD-MM-YYYY'),'');
 
-
+commit;
 
 
