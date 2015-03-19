@@ -18,7 +18,19 @@ DROP TABLE Chefs;
 DROP TABLE Employes;
 DROP TABLE Clients;
 DROP TABLE Personnes;
+drop user PierreG;
+drop user CedricB;
+drop user TheoD;
 
+/* Creaton d'utilisateurs de la base*/
+
+create user PierreG identified by PG; /*un client */
+create user CedricB identified by CB; /* responsable du rayon Livres */
+create user TheoD identified by TD; /* responsable du rayon disque */
+create user FrancoisH identified by FN; /* responsable du rayon disque */
+
+
+FrancoisH
 /* Creation des differents tables */
 
 /* table Clients */
@@ -28,6 +40,8 @@ CREATE TABLE Clients(
             duree_ab NUMBER(2),
             id_p NUMBER(3),
             CONSTRAINT clients_pk PRIMARY KEY (id_cl));
+
+
 
 /* table Personnes */
 CREATE TABLE Personnes(
@@ -106,7 +120,21 @@ CREATE TABLE Disques(
           nb_pistes NUMBER(2),
           duree_d NUMBER(3),
           CONSTRAINT disques_pk PRIMARY KEY (titre, groupe));
-          
+
+/*Privileges des utilisateurs */
+grant connect to PierreG;
+grant connect to CedricB;
+grant connect to TheoD;
+grant connect to FrancoisH;
+grant select on Disques to PierreG;
+grant select on Livres to PierreG;
+grant select on Films to PierreG;
+grant select,update,insert on Livres to CedricB;
+grant select,update,insert on Disques to TheoD;
+grant select,update,insert on Films to FrancoisH;
+
+
+/* Creation des differents sequences */          
 /* sequence seq_id_cl, pour les numeros des clients */
 CREATE SEQUENCE seq_id_cl
 START WITH 1
