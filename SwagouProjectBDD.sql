@@ -242,41 +242,6 @@ CREATE OR REPLACE VIEW disponibles AS
 SELECT TITRE FROM MEDIAS WHERE MEDIAS.REF_M NOT IN
 (SELECT REF_M FROM MEDIAS NATURAL JOIN EMPRUNTS);
 
-
-
-/*
-CREATE OR REPLACE TRIGGER VERIF_ABONNEMENT 
-BEFORE INSERT ON EMPRUNTS
-FOR EACH ROW
-DECLARE
-	abonnement_expiré_exception EXCEPTION;
-  duree_abonement_exception EXCEPTION;
-  date_abo DATE;
-  duree_abo NUMBER;
-  
-BEGIN
-  
-  SELECT DATE_AB INTO date_abo FROM CLIENTS WHERE CLIENTS.ID_CL = :NEW.ID_CL;
-  SELECT DUREE_AB INTO duree_abo FROM CLIENTS WHERE CLIENTS.ID_CL = :NEW.ID_CL;
-  
-
-  if :NEW.DATE_EMP > ADD_MONTHS(date_abo,duree_abo) then
-    raise abonnement_expiré_exception;
-  end if;
-
-EXCEPTION
-
-  WHEN abonnement_expiré_exception THEN
-		RAISE_APPLICATION_ERROR(-20001, 'Erreur : Labonement du client a expiré.');
-  WHEN duree_abonement_exception THEN
-		RAISE_APPLICATION_ERROR(-20002, 'Erreur : la durée de labonement nest pas correct.');
-
-  
-END; 
-/         
-*/
-
-
 /* procedure pour ajouter un client */
 create or replace PROCEDURE add_cl(nom IN VARCHAR2, 
                                     prenom IN VARCHAR2, 
@@ -295,7 +260,7 @@ END;
 
 
 
-/* procedure pour afficher les clients d'un rayon */
+/* procedure pour afficher les employés d'un rayon */
 create or replace PROCEDURE EMP_RAYON (ray in VARCHAR2)
 AS
 CURSOR c1 IS
