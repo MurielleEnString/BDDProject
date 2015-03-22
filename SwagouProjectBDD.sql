@@ -1,3 +1,5 @@
+/* PROJET BDD MEDIATHEQUE */
+/* Bois Cedric, Dolez Theo, Gaultier Pierre */
 /* DROP de toute la base */
 
 DROP SEQUENCE seq_id_cl;
