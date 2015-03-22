@@ -8,16 +8,18 @@ DROP SEQUENCE seq_id_cd;
 DROP SEQUENCE seq_id_film;
 DROP SEQUENCE seq_id_livre;
 
+
 DROP TABLE Disques;
 DROP TABLE Films;
 DROP TABLE Livres;
-DROP TABLE Emprunts2;
+DROP TABLE Retours;
 DROP TABLE Emprunts;
 DROP TABLE Medias;
 DROP TABLE Chefs;
 DROP TABLE Employes;
 DROP TABLE Clients;
 DROP TABLE Personnes;
+
 drop user PierreG;
 drop user CedricB;
 drop user TheoD;
@@ -31,7 +33,7 @@ create user TheoD identified by TD; /* responsable du rayon disque */
 create user FrancoisH identified by FN; /* responsable du rayon disque */
 
 
-FrancoisH
+
 /* Creation des differents tables */
 
 /* table Clients */
@@ -93,12 +95,12 @@ CREATE TABLE Emprunts(
             CONSTRAINT emprunts_fk2 FOREIGN KEY (ref_m) REFERENCES Medias(ref_m));
 
 /* table Emprunt */   
-CREATE TABLE Emprunts2(
+CREATE TABLE Retours(
             ref_m NUMBER(3),
             date_emp DATE,
             date_ret_prevue DATE,
-            CONSTRAINT emprunts2_pk PRIMARY KEY (ref_m, date_emp),
-            CONSTRAINT emprunts2_fk1 FOREIGN KEY (ref_m) REFERENCES Medias(ref_m));
+            CONSTRAINT Retours_pk PRIMARY KEY (ref_m, date_emp),
+            CONSTRAINT Retours_fk1 FOREIGN KEY (ref_m) REFERENCES Medias(ref_m));
             
 /* table Livres */            
 CREATE TABLE Livres(
@@ -189,15 +191,15 @@ NOCYCLE
 MAXVALUE 999; 
           
 /* trigger qui ajoute un tupple a Emprunt */
-CREATE OR REPLACE TRIGGER ajout_emprunts2
+CREATE OR REPLACE TRIGGER ajout_Retours
   AFTER INSERT
   ON EMPRUNTS
   FOR EACH ROW
 BEGIN
   IF :NEW.ref_m<'600' THEN
-    INSERT INTO EMPRUNTS2 VALUES(:NEW.ref_m,:NEW.date_emp,:NEW.date_emp+21);
+    INSERT INTO Retours VALUES(:NEW.ref_m,:NEW.date_emp,:NEW.date_emp+21);
   ELSE
-    INSERT INTO EMPRUNTS2 VALUES(:NEW.ref_m,:NEW.date_emp,ADD_MONTHS(:NEW.date_emp,1));
+    INSERT INTO Retours VALUES(:NEW.ref_m,:NEW.date_emp,ADD_MONTHS(:NEW.date_emp,1));
   END IF;
 END;
 /
@@ -228,12 +230,12 @@ END;
 /* Vue qui represente touts les media en retard */
 CREATE OR REPLACE VIEW retard AS 
 SELECT nom, prenom, EMPRUNTS.ref_m, EMPRUNTS.date_emp
-FROM CLIENTS,PERSONNES, EMPRUNTS, EMPRUNTS2
+FROM CLIENTS,PERSONNES, EMPRUNTS, Retours
 WHERE CLIENTS.ID_CL=EMPRUNTS.ID_CL
 AND PERSONNES.ID_P=CLIENTS.ID_P
-AND EMPRUNTS.ref_m=EMPRUNTS2.REF_M
-AND EMPRUNTS.DATE_EMP=EMPRUNTS2.DATE_EMP
-AND EMPRUNTS2.DATE_RET_PREVUE<SYSDATE;
+AND EMPRUNTS.ref_m=Retours.REF_M
+AND EMPRUNTS.DATE_EMP=Retours.DATE_EMP
+AND Retours.DATE_RET_PREVUE<SYSDATE;
 
 
 
@@ -429,5 +431,4 @@ INSERT INTO EMPRUNTS VALUES('004','601',to_date('12-04-2014','DD-MM-YYYY'),'');
 INSERT INTO EMPRUNTS VALUES('004','001',to_date('15-03-2015','DD-MM-YYYY'),'');
 
 commit;
-
 
